@@ -5,34 +5,27 @@ function redirectToPage(url) {
 }
 
 // check & redirect
-function checkAndRedirect() {
-  if (isLoggedIn()) {
-    console.log("upload");
-  } else {
-    window.location.href = "/login";
-  }
+function checkAndUpload() {
+  isLoggedIn();
 }
 
 // check if the user is logged in
 const isLoggedIn = async () => {
-  const res = await fetch("http://localhost:5100/user");
-  const data = await res.json();
-  console.log(data);
-};
-
-const logoutBtn = () => {
-  console.log("logout btn");
-};
-
-// load spinner function
-const toggleSpinner = (isLoading) => {
-  const loaderSection = document.getElementById("loading-spinner");
-  if (isLoading) {
-    loaderSection.classList.remove("d-none");
-  } else {
-    loaderSection.classList.add("d-none");
+  const fileLabel = document.getElementById("file-label");
+  const email = window.localStorage.getItem("gem-crop-gallery");
+  if (email === null) {
+    fileLabel.classList.add("disabled");
+    return;
   }
+
+  const res = await fetch(`http://localhost:5100/user/${email}`);
+  const data = await res.json();
+  return data;
 };
+
+// isLoggedIn();
+
+// loader
 
 // upload image
 document.addEventListener("DOMContentLoaded", function () {
@@ -65,18 +58,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  cropButton.addEventListener("click", function () {
+  cropButton.addEventListener("click", async function () {
     const croppedData = cropper.getCroppedCanvas().toDataURL("image/jpeg");
-    sendCroppedData(croppedData);
+    const userData = await isLoggedIn();
+    const { email } = userData;
+    sendCroppedData(croppedData, email);
   });
 
-  function sendCroppedData(croppedData) {
+  function sendCroppedData(croppedData, email) {
+    const imgData = { croppedData, email };
     fetch("http://localhost:5100/upload-img", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ croppedData }),
+      body: JSON.stringify(imgData),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -91,3 +87,26 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((err) => console.log(err));
   }
 });
+
+// show my save images
+async function loadMyImages() {
+  const userData = await isLoggedIn();
+  const url = `http://localhost:5100/my-images?email=${userData?.email}`;
+  const res = await fetch(url);
+  const images = await res.json();
+  displayImages(images);
+}
+
+function displayImages(images) {
+  const myImagesContainer = document.getElementById("my-images");
+  myImagesContainer.innerHTML = "";
+
+  images?.forEach((img) => {
+    const imageDiv = document.createElement("div");
+    imageDiv.classList.add("col");
+    imageDiv.innerHTML = `<img src="${img.croppedData}" class="img-thumbnail rounded" alt="...">`;
+    myImagesContainer.appendChild(imageDiv);
+  });
+}
+
+loadMyImages();

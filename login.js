@@ -16,11 +16,15 @@ loginBtn.addEventListener("click", async (event) => {
   });
 
   if (response.ok) {
+    window.localStorage.setItem("gem-crop-gallery", email);
     Swal.fire({
       title: "Welcome",
       text: "You successfully login",
       icon: "success",
     });
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 2000);
   } else {
     Swal.fire({
       icon: "error",
