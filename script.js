@@ -18,7 +18,9 @@ const isLoggedIn = async () => {
     return;
   }
 
-  const res = await fetch(`http://localhost:5100/user/${email}`);
+  const res = await fetch(
+    `https://gem-crop-gallery-server.vercel.app/user/${email}`
+  );
   const data = await res.json();
   return data;
 };
@@ -72,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function sendCroppedData(croppedData, email) {
     const imgData = { croppedData, email };
-    fetch("http://localhost:5100/upload-img", {
+    fetch("https://gem-crop-gallery-server.vercel.app/upload-img", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // show my save images
 async function loadMyImages() {
   const userData = await isLoggedIn();
-  const url = `http://localhost:5100/my-images?email=${userData?.email}`;
+  const url = `https://gem-crop-gallery-server.vercel.app/my-images?email=${userData?.email}`;
   const res = await fetch(url);
   const images = await res.json();
   displayImages(images);

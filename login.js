@@ -7,13 +7,16 @@ loginBtn.addEventListener("click", async (event) => {
   const userData = { email, password };
 
   // call your backend api to handle login
-  const response = await fetch("http://localhost:5100/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
+  const response = await fetch(
+    "https://gem-crop-gallery-server.vercel.app/login",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    }
+  );
 
   if (response.ok) {
     window.localStorage.setItem("gem-crop-gallery", email);
