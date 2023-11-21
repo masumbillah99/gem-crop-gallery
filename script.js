@@ -23,7 +23,11 @@ const isLoggedIn = async () => {
   return data;
 };
 
-// isLoggedIn();
+// logout btn
+function logout() {
+  window.localStorage.removeItem("gem-crop-gallery");
+  window.location.reload();
+}
 
 // loader
 
@@ -45,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // });
 
   fileInput.addEventListener("change", function (event) {
+    cropButton.classList.add("d-block");
     const image = document.getElementById("output-img");
     const file = event.target.files[0];
     if (file) {
@@ -101,12 +106,17 @@ function displayImages(images) {
   const myImagesContainer = document.getElementById("my-images");
   myImagesContainer.innerHTML = "";
 
-  images?.forEach((img) => {
-    const imageDiv = document.createElement("div");
-    imageDiv.classList.add("col");
-    imageDiv.innerHTML = `<img src="${img.croppedData}" class="img-thumbnail rounded" alt="...">`;
-    myImagesContainer.appendChild(imageDiv);
-  });
+  if (images) {
+    images?.forEach((img) => {
+      const imageDiv = document.createElement("div");
+      imageDiv.classList.add("col");
+      imageDiv.innerHTML = `<img src="${img.croppedData}" class="w-75 rounded" alt="...">`;
+      myImagesContainer.appendChild(imageDiv);
+    });
+  } else {
+    const notFoundContainer = document.getElementById("img-not-found");
+    notFoundContainer.innerHTML = "No Image Add";
+  }
 }
 
 loadMyImages();

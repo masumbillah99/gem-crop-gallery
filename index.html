@@ -50,10 +50,10 @@
   <body class="">
     <header class="shadow">
       <nav
-        class="d-flex align-items-center justify-content-between container mx-auto py-3 mb-3"
+        class="d-lg-flex align-items-center justify-content-lg-between text-center container mx-auto py-3 mb-3"
       >
         <h3 class="h3 fw-bold">GEM CROP GALLERY</h3>
-        <ul class="d-flex gap-3 list-unstyled">
+        <ul class="d-flex justify-content-center gap-3 list-unstyled">
           <li>
             <a class="text-decoration-none" href="#my-images">MyImages</a>
           </li>
@@ -73,11 +73,17 @@
               >SignUp</a
             >
           </li>
+          <li>
+            <a onclick="logout()" class="text-decoration-none" href="#"
+              >Logout</a
+            >
+          </li>
         </ul>
       </nav>
     </header>
 
     <main class="container mx-auto">
+      <p class="text-danger fw-semibold">Login for upload & edit image</p>
       <section
         id="drop-img-sec"
         class="text-center border border-primary p-3 mb-5 rounded-2"
@@ -106,15 +112,19 @@
             <i class="fa-solid fa-cloud-arrow-up"></i>
             <span>Upload Image</span>
           </label>
-          <button id="crop-btn" class="btn btn-success">
+          <button id="crop-btn" class="btn btn-success" style="display: none">
             Crop & Save Image
           </button>
         </div>
       </section>
 
       <section class="my-5">
-        <h1 class="h4 fw-bold text-decoration-underline mb-3">Image Gallery</h1>
-        <div id="my-images" class="row row-cols-3"></div>
+        <h1 class="h4 fw-bold text-decoration-underline mb-4">Image Gallery</h1>
+        <div
+          id="my-images"
+          class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-center justify-content-center gap-5"
+        ></div>
+        <div id="img-not-found" class="bg-info"></div>
       </section>
     </main>
 

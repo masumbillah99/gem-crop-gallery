@@ -23,12 +23,15 @@ signupBtn.addEventListener("click", async (event) => {
   });
 
   if (response.ok) {
+    window.localStorage.setItem("gem-crop-gallery", email);
     Swal.fire({
       title: "Welcome",
       text: "You successfully sign up",
       icon: "success",
     });
-    window.location.href = "/";
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
   } else {
     Swal.fire({
       icon: "error",

@@ -23,7 +23,7 @@ loginBtn.addEventListener("click", async (event) => {
       icon: "success",
     });
     setTimeout(() => {
-      window.location.href = "index.html";
+      window.location.href = "/";
     }, 2000);
   } else {
     Swal.fire({
